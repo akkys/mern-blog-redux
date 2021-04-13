@@ -1,0 +1,33 @@
+.pagination {
+  display: flex;
+  margin: 1rem 0;
+
+  li:first-child {
+    border-left: 1px solid $blue !important;
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
+  }
+  li:last-child {
+    border-top-right-radius: 0.7rem;
+    border-bottom-right-radius: 0.7rem;
+  }
+  li {
+    list-style: none;
+    display: block;
+    padding: 0.8rem 1.3rem;
+    font-size: 1.2rem;
+    border: 1px solid $blue;
+    border-left: none;
+    cursor: pointer;
+    a {
+      color: $blue;
+    }
+  }
+}
+
+.active {
+  background: $blue;
+  a {
+    color: $white !important;
+  }
+}

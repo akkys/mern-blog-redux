@@ -1,0 +1,37 @@
+.dashboard__blogs:first-child {
+  border-top: 1px solid $silverLight !important;
+  border-top-left-radius: 0.7rem;
+  border-top-right-radius: 0.7rem;
+}
+
+.dashboard__blogs:last-child {
+  border-bottom-left-radius: 0.7rem;
+  border-bottom-right-radius: 0.7rem;
+}
+
+.dashboard__blogs {
+  background-color: $white;
+  padding: 2rem 1.4rem;
+  border: 1px solid $silverLight;
+  border-top: none;
+  display: flex;
+  align-items: center;
+  &__title {
+    width: 70%;
+    a {
+      text-decoration: none;
+      font-size: 1.4rem;
+      color: $black;
+    }
+    span {
+      display: block;
+      font-size: 1rem;
+      color: $darkGray;
+      margin-top: 0.2rem;
+    }
+  }
+  &__links {
+    width: 30%;
+    text-align: end;
+  }
+}

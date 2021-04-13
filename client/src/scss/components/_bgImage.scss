@@ -1,0 +1,15 @@
+.bgImage {
+  width: 100% auto;
+  height: calc(100vh - 8rem);
+  background: url("/images/blogbackground.png");
+  background-size: cover;
+
+  @include responsive(xs) {
+    height: 0 !important;
+    width: 0 !important;
+  }
+  @include responsive(sm) {
+    height: 0 !important;
+    width: 0 !important;
+  }
+}

@@ -1,0 +1,24 @@
+//Import Abstract scss
+@import "scss/abstracts/variables";
+@import "scss/abstracts/mixin";
+@import "scss/abstracts/extends";
+
+//Import Base scss
+@import "scss/base/reset";
+
+//Import Component scss
+@import "scss/components/navbar";
+@import "scss/components/bgImage";
+@import "scss/components/account";
+@import "scss/components/notFound";
+@import "scss/components/dashboard";
+@import "scss/components/loader";
+@import "scss/components/sidebar";
+@import "scss/components/pagination";
+@import "scss/components/home";
+
+//Import Util scss
+@import "scss/utils/utils";
+
+//Import Layout scss
+@import "scss/layout/grid";
