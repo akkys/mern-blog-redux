@@ -9,6 +9,7 @@ const {
   deleteBlog,
   fetchAllBlogs,
   fetchBlogDetails,
+  blogComment,
 } = require("../controllers/BlogController");
 const auth = require("../utils/auth");
 
@@ -31,9 +32,12 @@ router.get("/get/:id", auth, fetchBlogById);
 router.get("/getAll/:page", fetchAllBlogs);
 
 //Fetch blog's details by Id - Public Route
-router.get("/blogDetails/:id", fetchBlogDetails);
+router.get("/fetchBlogDetails/:id", fetchBlogDetails);
 
 //Delete blog by Id - Private Route
 router.get("/delete/:id", auth, deleteBlog);
+
+//Comment blog - Private Route
+router.post("/comment", auth, blogComment);
 
 module.exports = router;

@@ -2,15 +2,20 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-import { fetchBlogDetails } from "../../store/asyncActions/BlogActions";
+import {
+  blogComment,
+  fetchBlogDetails,
+} from "../../store/asyncActions/BlogActions";
 import Loader from "../pages/Loader";
 import { htmlToText } from "html-to-text";
+import AddComment from "../comments/AddComment";
+import ShowOnlyComments from "../comments/ShowOnlyComments";
 
 const BlogDetails = () => {
   const [comment, setComment] = useState("");
   const { id } = useParams();
   const { user } = useSelector((state) => state.auth);
-  const { loading, blogDetails } = useSelector((state) => state.blog);
+  const { loading, blogDetails, comments } = useSelector((state) => state.blog);
   const dispatch = useDispatch();
   console.log(blogDetails);
 
@@ -20,7 +25,11 @@ const BlogDetails = () => {
 
   const addComment = (e) => {
     e.preventDefault();
-    console.log(comment);
+    dispatch(
+      blogComment({ id: blogDetails._id, comment, userName: user.name })
+    );
+    setComment("");
+    dispatch(fetchBlogDetails(id));
   };
 
   useEffect(() => {
@@ -63,31 +72,17 @@ const BlogDetails = () => {
         </div>
         {user ? (
           <div className="col-4 p-15">
-            <div className="blog__details">
-              <form onSubmit={addComment}>
-                <div className="group">
-                  <label htmlFor="description">Comment</label>
-                  <textarea
-                    type="text"
-                    rows="3"
-                    defaultValue={comment}
-                    onChange={(e) => setComment(e.target.value)}
-                    className="group__control"
-                    placeholder="Write comment here... "
-                  />
-                </div>
-                <div className="group">
-                  <input
-                    type="submit"
-                    className="btn btn-default btn-block"
-                    value="Submit"
-                  />
-                </div>
-              </form>
-            </div>
+            <AddComment
+              addComment={addComment}
+              comment={comment}
+              setComment={setComment}
+              comments={comments}
+            />
           </div>
         ) : (
-          ""
+          <div className="col-4 p-15">
+            <ShowOnlyComments addComment={addComment} comments={comments} />
+          </div>
         )}
       </div>
     </div>

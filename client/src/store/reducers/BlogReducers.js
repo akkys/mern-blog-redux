@@ -16,6 +16,7 @@ import {
   RESET_UPDATE_ERROR,
   UPDATE_IMAGE_ERROR,
   RESET_UPDATE_IMAGE_ERROR,
+  FETCH_COMMENTS,
 } from "../types/BlogTypes";
 
 const initState = {
@@ -31,6 +32,7 @@ const initState = {
   updateErrors: [],
   updateImageErrors: [],
   blogDetails: {},
+  comments: [],
 };
 
 const blogReducer = (state = initState, action) => {
@@ -62,6 +64,9 @@ const blogReducer = (state = initState, action) => {
     }
     case FETCH_BLOG_DETAILS: {
       return { ...state, blogDetails: payload };
+    }
+    case FETCH_COMMENTS: {
+      return { ...state, comments: payload };
     }
     default: {
       return state;
