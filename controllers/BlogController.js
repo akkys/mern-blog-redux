@@ -4,6 +4,7 @@ const { htmlToText } = require("html-to-text");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const Blog = require("../models/BlogModel");
+const CommentBlog = require("../models/CommentModel");
 
 const createBlog = (req, res) => {
   const form = formidable({ multiples: true });
@@ -193,7 +194,10 @@ const fetchBlogDetails = async (req, res) => {
   const id = req.params.id;
   try {
     const blog = await Blog.findOne({ blogUrl: id });
-    res.status(200).json({ blog });
+    const comments = await CommentBlog.find({ postId: blog._id }).sort({
+      updatedAt: -1,
+    });
+    res.status(200).json({ blog, comments });
   } catch (error) {
     res.status(500).json({ errors: error, msg: error.message });
   }
@@ -209,6 +213,22 @@ const deleteBlog = async (req, res) => {
   }
 };
 
+const blogComment = async (req, res) => {
+  const { id, comment, userName } = req.body;
+  try {
+    const response = await CommentBlog.create({
+      postId: id,
+      comment,
+      userName,
+    });
+    return res
+      .status(200)
+      .json({ msg: "Your comment has been published.", comment: response });
+  } catch (error) {
+    res.status(500).json({ errors: error, msg: error.message });
+  }
+};
+
 module.exports = {
   createBlog,
   updateBlog,
@@ -219,4 +239,5 @@ module.exports = {
   fetchAllBlogs,
   fetchBlogDetails,
   deleteBlog,
+  blogComment,
 };

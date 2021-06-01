@@ -12,6 +12,7 @@ import {
   BLOG_REQUEST,
   SET_UPDATE_ERROR,
   UPDATE_IMAGE_ERROR,
+  FETCH_COMMENTS,
 } from "../types/BlogTypes";
 
 // const token = localStorage.getItem("myToken");
@@ -175,10 +176,34 @@ const fetchBlogDetails = (id) => {
     dispatch({ type: SET_LOADER });
     try {
       const {
-        data: { blog },
-      } = await axios.get(`/blogs/blogDetails/${id}`);
+        data: { blog, comments },
+      } = await axios.get(`/blogs/fetchBlogDetails/${id}`);
       dispatch({ type: CLOSE_LOADER });
       dispatch({ type: FETCH_BLOG_DETAILS, payload: blog });
+      dispatch({ type: FETCH_COMMENTS, payload: comments });
+      console.log({ blog, comments });
+    } catch (error) {
+      dispatch({ type: CLOSE_LOADER });
+      console.log(error);
+    }
+  };
+};
+
+const blogComment = (commentData) => {
+  return async (dispatch, getState) => {
+    const {
+      auth: { token },
+    } = getState();
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    dispatch({ type: SET_LOADER });
+    try {
+      const { data } = await axios.post("/blogs/comment", commentData, config);
+      dispatch({ type: CLOSE_LOADER });
+      console.log(data);
     } catch (error) {
       dispatch({ type: CLOSE_LOADER });
       console.log(error);
@@ -194,4 +219,5 @@ export {
   fetchBlogById,
   fetchAllBlogs,
   fetchBlogDetails,
+  blogComment,
 };

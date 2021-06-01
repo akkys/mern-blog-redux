@@ -2,20 +2,19 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import moment from "moment";
-import { BsPencil, BsTrash, BsImage } from "react-icons/bs";
 import {
   CLOSE_LOADER,
   REDIRECT_FALSE,
   REMOVE_MESSAGE,
   SET_LOADER,
   SET_MESSAGE,
-} from "../../store/types/BlogTypes";
-import { fetchBlogs } from "../../store/asyncActions/BlogActions";
-import Loader from "../pages/Loader";
-import Sidebar from "../layout/Sidebar";
-import Pagination from "../pages/Pagination";
+} from "../../../store/types/BlogTypes";
+import { fetchBlogs } from "../../../store/asyncActions/BlogActions";
+import Loader from "../Loader";
+import Sidebar from "../../layout/Sidebar";
+import Pagination from "../Pagination";
 import axios from "axios";
+import DashboardContent from "./DashboardContent";
 
 const Dashboard = () => {
   const { redirect, message, loading } = useSelector((state) => state.blog);
@@ -90,26 +89,7 @@ const Dashboard = () => {
               <Loader />
             ) : blogs.length > 0 ? (
               blogs.map((blog) => (
-                <div className="dashboard__blogs" key={blog._id}>
-                  <div className="dashboard__blogs__title">
-                    <Link to={`/blogDetails/${blog.blogUrl}`}>
-                      {blog.title}
-                    </Link>
-                    <span>Published {moment(blog.updatedAt).fromNow()}</span>
-                  </div>
-                  <div className="dashboard__blogs__links">
-                    <Link to={`/updateImage/${blog._id}`}>
-                      <BsImage className="icon" />
-                    </Link>
-                    <Link to={`/updateBlog/${blog._id}`}>
-                      <BsPencil className="icon" />
-                    </Link>
-                    <BsTrash
-                      onClick={() => deleteBlog(blog._id)}
-                      className="icon"
-                    />
-                  </div>
-                </div>
+                <DashboardContent blog={blog} deleteBlog={deleteBlog} />
               ))
             ) : (
               <h5>You don't have any blogs.</h5>
